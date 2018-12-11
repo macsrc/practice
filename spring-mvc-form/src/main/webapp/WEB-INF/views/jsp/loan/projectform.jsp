@@ -9,16 +9,129 @@
 
 <jsp:include page="../fragments/header.jsp" />
 
-<div class="container">
+<div class="container" style="border: 1px solid #cecece;" id="1">
+	<br />
+	<spring:url value="/users" var="userActionUrl" />
 
-	<c:choose>
+	<form:form class="form-horizontal" method="post"
+		modelAttribute="userForm" action="${userActionUrl}">
+
+		<form:hidden path="id" />
+		
+		<spring:bind path="country">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Select Project Type*</label>
+				<div class="col-sm-5">
+					<form:select path="country" class="form-control">
+						<form:option value="NONE" label="--- Select ---" />
+						<form:options items="${countryList}" />
+					</form:select>
+					<form:errors path="country" class="control-label" />
+				</div>
+				<div class="col-sm-5"><button class="btn-lg btn-primary pull-right">Next</button></div>
+				
+			</div>
+		</spring:bind>
+	</form:form>
+</div>
+
+<br/>
+
+<div class="container" style="border: 1px solid #cecece;" id="2">
+	<br />
+	<spring:url value="/users" var="userActionUrl" />
+
+	<form:form class="form-horizontal" method="post"
+		modelAttribute="userForm" action="${userActionUrl}">
+
+		<form:hidden path="id" />
+		
+		<spring:bind path="country">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">State(s)</label>
+				<div class="col-sm-5">
+					<form:select path="country" class="form-control">
+						<form:option value="NONE" label="--- Select ---" />
+						<form:options items="${countryList}" />
+					</form:select>
+					<form:errors path="country" class="control-label" />
+				</div>
+				<div class="col-sm-5"></div>
+			</div>
+		</spring:bind>
+
+		<spring:bind path="name">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Legal Owner(s)</label>
+				<div class="col-sm-10">
+					<form:input path="name" type="text" class="form-control " id="name"
+						placeholder="Name" 
+						/>
+					<form:errors path="name" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		<spring:bind path="name">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Federal/State/Local Project Name</label>
+				<div class="col-sm-10">
+					<form:input path="name" type="text" class="form-control " id="name"
+						placeholder="Name" 
+						/>
+					<form:errors path="name" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		<spring:bind path="name">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Borrower</label>
+				<div class="col-sm-10">
+					<form:input path="name" type="text" class="form-control " id="name"
+						placeholder="Name" 
+						/>
+					<form:errors path="name" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+		
+		<spring:bind path="name">
+			<div class="form-group ${status.error ? 'has-error' : ''}">
+				<label class="col-sm-2 control-label">Preferred Project Name</label>
+				<div class="col-sm-10">
+					<form:input path="name" type="text" class="form-control " id="name"
+						placeholder="Name" 
+						/>
+					<form:errors path="name" class="control-label" />
+				</div>
+			</div>
+		</spring:bind>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn-lg btn-primary pull-right">Submit Request</button>
+			</div>
+		</div>
+	</form:form>
+</div>
+
+<br/>
+
+<!-- *********************** Old Program ******************************** -->
+<div class="container" style="border: 1px solid #cecece;">
+	<h3>Summary </h3>
+</div>
+<div class="container" style="border: 1px solid #cecece;">
+
+	 <c:choose>
 		<c:when test="${userForm['new']}">
-			<h1>Add User</h1>
+			<h4>Add User</h4>
 		</c:when>
 		<c:otherwise>
-			<h1>Update User</h1>
+			<h4>Update User</h4>
 		</c:otherwise>
-	</c:choose>
+	</c:choose> 
 	<br />
 
 	<spring:url value="/users" var="userActionUrl" />
@@ -50,7 +163,7 @@
 			</div>
 		</spring:bind>
 
-		<spring:bind path="password">
+		 <spring:bind path="password">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Password</label>
 				<div class="col-sm-10">
@@ -70,7 +183,7 @@
 					<form:errors path="confirmPassword" class="control-label" />
 				</div>
 			</div>
-		</spring:bind>
+		</spring:bind> 
 
 		<spring:bind path="address">
 			<div class="form-group ${status.error ? 'has-error' : ''}">
@@ -112,9 +225,10 @@
 			<div class="form-group ${status.error ? 'has-error' : ''}">
 				<label class="col-sm-2 control-label">Sex</label>
 				<div class="col-sm-10">
+					<label class="radio-inline"> 
+						<form:radiobutton path="sex" value="M" /> Male
+					</label> 
 					<label class="radio-inline"> <form:radiobutton path="sex"
-							value="M" /> Male
-					</label> <label class="radio-inline"> <form:radiobutton path="sex"
 							value="F" /> Female
 					</label> <br />
 					<form:errors path="sex" class="control-label" />
@@ -191,6 +305,9 @@
 	</form:form>
 
 </div>
+
+<br />
+
 
 <jsp:include page="../fragments/footer.jsp" />
 
