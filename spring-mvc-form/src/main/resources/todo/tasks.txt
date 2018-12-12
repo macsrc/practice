@@ -1,0 +1,3 @@
+1. update field and process in classes
+2. add new page
+3. update functionalities
