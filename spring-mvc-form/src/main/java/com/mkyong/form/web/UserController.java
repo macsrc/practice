@@ -205,12 +205,18 @@ public class UserController {
 		model.addAttribute("numberList", numbers);
 
 		Map<String, String> country = new LinkedHashMap<String, String>();
-		country.put("US", "United Stated");
-		country.put("CN", "China");
-		country.put("SG", "Singapore");
-		country.put("MY", "Malaysia");
+//		country.put("US", "United Stated");
+//		country.put("CN", "China");
+//		country.put("SG", "Singapore");
+//		country.put("MY", "Malaysia");
+//		model.addAttribute("countryList", country);
+		
+		List<User> userList = userService.findAll();
+		for (User user : userList) {
+			country.put(user.getName(), user.getEmail());
+			System.out.println("user : " + user.getName() + " " + user.getAddress());
+		}
 		model.addAttribute("countryList", country);
-
 	}
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)

@@ -22,13 +22,16 @@ public class User {
 	@Size(max = 20, min = 3, message = "{user.name.invalid}")
 	private String name;
 
-	@Column(name = "COUNTRY")
-	@Size(max = 40, min = 2, message = "{country.name.invalid}")
-	private String country;
+	@Column(name = "ADDRESS")
+	@Size(max = 40, min = 2, message = "{user.address.invalid}")
+	private String address;
 
 	@Column(name = "EMAIL", unique = true)
 	@Email(message = "{user.email.invalid}")
 	private String email;
+	
+	private boolean receivePaper;
+	private String country;
 
 	public Long getId() {
 		return id;
@@ -54,6 +57,22 @@ public class User {
 		this.email = email;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public boolean isReceivePaper() {
+		return receivePaper;
+	}
+
+	public void setReceivePaper(boolean receivePaper) {
+		this.receivePaper = receivePaper;
+	}
+
 	public String getCountry() {
 		return country;
 	}
@@ -61,5 +80,8 @@ public class User {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
+	
+	
 
 }

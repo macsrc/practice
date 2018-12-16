@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -29,10 +30,23 @@ public class SpringDBConfig {
 
 	@Bean
 	public DataSource getDataSource() {
-		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		EmbeddedDatabase db = builder.setName("testdb").setType(EmbeddedDatabaseType.HSQL)
-				.addScript("db/sql/create-db.sql").addScript("db/sql/insert-data.sql").build();
-		return db;
+//		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+//		EmbeddedDatabase db = builder.setName("testdb").setType(EmbeddedDatabaseType.HSQL)
+//				.addScript("db/sql/create-db.sql").addScript("db/sql/insert-data.sql").build();
+//		return db;
+		
+		/*		
+		 * mysql.driver=com.mysql.cj.jdbc.Driver
+		 * mysql.url=jdbc:mysql://localhost:3306/petclinic?autoReconnect=true&useSSL=false
+		 * mysql.user=develop
+		 * mysql.password=develop
+		*/		
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/petclinic?autoReconnect=true&useSSL=false");
+        dataSource.setUsername("develop");
+        dataSource.setPassword("develop");
+        return dataSource;
 	}
 
 	@PostConstruct

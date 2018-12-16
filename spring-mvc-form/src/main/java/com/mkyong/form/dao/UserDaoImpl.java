@@ -65,6 +65,16 @@ public class UserDaoImpl implements UserDao {
 		return result;
 
 	}
+	
+	/** TEST for Dropdown */
+	@Override
+	public List<User> getAllUserNames() {
+
+		String sql = "SELECT name, address FROM users";
+		List<User> result = namedParameterJdbcTemplate.query(sql, new UserMapper());
+
+		return result;
+	}
 
 	@Override
 	public void save(User user) {
