@@ -2,6 +2,7 @@ package com.mkyong.form.dao;
 
 import java.util.List;
 
+import com.mkyong.form.model.Cacdlg;
 import com.mkyong.form.model.User;
 
 public interface UserDao {
@@ -17,5 +18,6 @@ public interface UserDao {
 	void delete(Integer id);
 	
 	/**Test add*/
-	List<User> getAllUserNames();
+	List<Cacdlg> getCodeValues();
+//	List<Cacdlg> getCodeValues(String groupCode);
 }

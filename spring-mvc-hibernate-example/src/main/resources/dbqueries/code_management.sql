@@ -170,7 +170,7 @@ Code Management - select list of records for a tabular resultset
 			.append(" WHERE C_C_NO BETWEEN (? - 1) * ? +1 AND ? * ? ) ");		 
 			
 
-Code Management - selectQuery to get code details			
+-- Code Management - selectQuery to get code details			
 	public RecordSet selectSearchCodes( SelectParameterObject param, String grpCd , String lang)throws HmcSQLException, HmcSystemException {
 
 			.append(" SELECT ")

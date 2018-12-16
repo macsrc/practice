@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.mkyong.form.model.Cacdlg;
 import com.mkyong.form.model.User;
 
 @Repository
@@ -28,7 +29,8 @@ public class UserDaoImpl implements UserDao {
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	@Autowired
-	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) throws DataAccessException {
+	public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate)
+			throws DataAccessException {
 		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 	}
 
@@ -48,12 +50,10 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		/*
-		 * User result = namedParameterJdbcTemplate.queryForObject( sql, params,
-		 * new BeanPropertyRowMapper<User>());
+		 * User result = namedParameterJdbcTemplate.queryForObject( sql, params, new
+		 * BeanPropertyRowMapper<User>());
 		 */
-
 		return result;
-
 	}
 
 	@Override
@@ -65,34 +65,25 @@ public class UserDaoImpl implements UserDao {
 		return result;
 
 	}
-	
-	/** TEST for Dropdown */
-	@Override
-	public List<User> getAllUserNames() {
-
-		String sql = "SELECT name, address FROM users";
-		List<User> result = namedParameterJdbcTemplate.query(sql, new UserMapper());
-
-		return result;
-	}
 
 	@Override
 	public void save(User user) {
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		
+
 		String sql = "INSERT INTO USERS(NAME, EMAIL, ADDRESS, PASSWORD, NEWSLETTER, FRAMEWORK, SEX, NUMBER, COUNTRY, SKILL) "
 				+ "VALUES ( :name, :email, :address, :password, :newsletter, :framework, :sex, :number, :country, :skill)";
 
 		namedParameterJdbcTemplate.update(sql, getSqlParameterByModel(user), keyHolder);
 		user.setId(keyHolder.getKey().intValue());
-		
+
 	}
 
 	@Override
 	public void update(User user) {
 
-		String sql = "UPDATE USERS SET NAME=:name, EMAIL=:email, ADDRESS=:address, " + "PASSWORD=:password, NEWSLETTER=:newsletter, FRAMEWORK=:framework, "
+		String sql = "UPDATE USERS SET NAME=:name, EMAIL=:email, ADDRESS=:address, "
+				+ "PASSWORD=:password, NEWSLETTER=:newsletter, FRAMEWORK=:framework, "
 				+ "SEX=:sex, NUMBER=:number, COUNTRY=:country, SKILL=:skill WHERE id=:id";
 
 		namedParameterJdbcTemplate.update(sql, getSqlParameterByModel(user));
@@ -149,6 +140,20 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	private static final class CacdlgMapper implements RowMapper<Cacdlg> {
+
+		public Cacdlg mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Cacdlg cacdlg = new Cacdlg();
+			cacdlg.setId(rs.getLong("id"));
+			cacdlg.setCDLG_GRP_CODE(rs.getString("CDLG_GRP_CODE"));
+			cacdlg.setCDLG_CODE(rs.getString("CDLG_CODE"));
+			cacdlg.setCDLG_CODE_NAME(rs.getString("CDLG_CODE_NAME"));
+			cacdlg.setCDLG_CRTE_DTIME(rs.getDate("CDLG_CRTE_DTIME"));
+			cacdlg.setCDLG_UPDT_DTIME(rs.getDate("CDLG_UPDT_DTIME"));
+			return cacdlg;
+		}
+	}
+
 	private static List<String> convertDelimitedStringToList(String delimitedString) {
 
 		List<String> result = new ArrayList<String>();
@@ -167,7 +172,39 @@ public class UserDaoImpl implements UserDao {
 			result = StringUtils.arrayToCommaDelimitedString(list.toArray());
 		}
 		return result;
-
 	}
 
+	/** Drop-down setup 
+	 *  GN	Gender
+	 *	JV	Java Skills
+	 *	NM	Number
+	 *	WF	Web Framework
+	 *  CN Countries
+	 */
+	@Override
+	public List<Cacdlg> getCodeValues() {
+
+		String sql = "SELECT * from cacdlg_tb where cdlg_grp_code in ('CN', 'NM', 'WF', 'JV', 'GN') ";
+		List<Cacdlg> result = namedParameterJdbcTemplate.query(sql, new CacdlgMapper());
+
+		return result;
+	}
+
+//	@Override
+//	public List<Cacdlg> getCodeValues(String groupCode) {
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("cdlg_grp_code", groupCode);
+//
+//		String sql = "SELECT * from cacdlg_tb where cdlg_grp_code = :groupCode ";
+//		List<Cacdlg> result = null;
+//		try {
+//			result = namedParameterJdbcTemplate.query(sql, new CacdlgMapper());
+//		} catch (EmptyResultDataAccessException e) {
+//			// do nothing, return null
+//		}
+//
+//		return result;
+//	}
+
 }
+

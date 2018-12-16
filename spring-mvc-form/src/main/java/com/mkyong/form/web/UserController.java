@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mkyong.form.model.Cacdlg;
 import com.mkyong.form.model.User;
 import com.mkyong.form.service.UserService;
 import com.mkyong.form.validator.UserFormValidator;
@@ -180,29 +181,29 @@ public class UserController {
 	private void populateDefaultModel(Model model) {
 
 		List<String> frameworksList = new ArrayList<String>();
-		frameworksList.add("Spring MVC");
-		frameworksList.add("Struts 2");
-		frameworksList.add("JSF 2");
-		frameworksList.add("GWT");
-		frameworksList.add("Play");
-		frameworksList.add("Apache Wicket");
-		model.addAttribute("frameworkList", frameworksList);
+//		frameworksList.add("Spring MVC");
+//		frameworksList.add("Struts 2");
+//		frameworksList.add("JSF 2");
+//		frameworksList.add("GWT");
+//		frameworksList.add("Play");
+//		frameworksList.add("Apache Wicket");
+//		model.addAttribute("frameworkList", frameworksList);
 
 		Map<String, String> skill = new LinkedHashMap<String, String>();
-		skill.put("Hibernate", "Hibernate");
-		skill.put("Spring", "Spring");
-		skill.put("Struts", "Struts");
-		skill.put("Groovy", "Groovy");
-		skill.put("Grails", "Grails");
-		model.addAttribute("javaSkillList", skill);
+//		skill.put("Hibernate", "Hibernate");
+//		skill.put("Spring", "Spring");
+//		skill.put("Struts", "Struts");
+//		skill.put("Groovy", "Groovy");
+//		skill.put("Grails", "Grails");
+//		model.addAttribute("javaSkillList", skill);
 
 		List<Integer> numbers = new ArrayList<Integer>();
-		numbers.add(1);
-		numbers.add(2);
-		numbers.add(3);
-		numbers.add(4);
-		numbers.add(5);
-		model.addAttribute("numberList", numbers);
+//		numbers.add(1);
+//		numbers.add(2);
+//		numbers.add(3);
+//		numbers.add(4);
+//		numbers.add(5);
+//		model.addAttribute("numberList", numbers);
 
 		Map<String, String> country = new LinkedHashMap<String, String>();
 //		country.put("US", "United Stated");
@@ -211,12 +212,30 @@ public class UserController {
 //		country.put("MY", "Malaysia");
 //		model.addAttribute("countryList", country);
 		
-		List<User> userList = userService.findAll();
-		for (User user : userList) {
-			country.put(user.getName(), user.getEmail());
-			System.out.println("user : " + user.getName() + " " + user.getAddress());
+		/** Drop-down setup 
+		 *  GN	Gender
+		 *	JV	Java Skills
+		 *	NM	Number
+		 *	WF	Web Framework
+		 *  CN Countries
+		 */
+		List<Cacdlg> cacdlgList = userService.getCodeValues();
+		for (Cacdlg cacdlg : cacdlgList) {
+			if(cacdlg.getCDLG_GRP_CODE().equals("CN")) {
+				country.put(cacdlg.getCDLG_CODE(), cacdlg.getCDLG_CODE_NAME());
+			}else if(cacdlg.getCDLG_GRP_CODE().equals("NM")) {
+				numbers.add(Integer.parseInt(cacdlg.getCDLG_CODE_NAME()));
+			} if(cacdlg.getCDLG_GRP_CODE().equals("JV")) {
+				skill.put(cacdlg.getCDLG_CODE(), cacdlg.getCDLG_CODE_NAME());
+			} if(cacdlg.getCDLG_GRP_CODE().equals("WF")) {
+				frameworksList.add(cacdlg.getCDLG_CODE_NAME());
+			}
+			System.out.println("user : " + cacdlg.getCDLG_CODE() + " " + cacdlg.getCDLG_CODE_NAME());
 		}
 		model.addAttribute("countryList", country);
+		model.addAttribute("numberList", numbers);
+		model.addAttribute("javaSkillList", skill);
+		model.addAttribute("frameworkList", frameworksList);
 	}
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)
