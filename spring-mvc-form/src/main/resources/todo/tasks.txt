@@ -1,5 +1,5 @@
 1. update field and process in classes - done
 1.1 use database values for options - done
-2. add new page - wip
+2. add new page - wip - common page for code management
 3. update functionalities
 4. consume Restful API with angular front end
