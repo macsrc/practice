@@ -1,4 +1,4 @@
-package com.journaldev.spring.model;
+package com.gyan.basic.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
